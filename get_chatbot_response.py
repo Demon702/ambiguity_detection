@@ -6,8 +6,9 @@ import json
 from typing import List
 import json
 from cache import Cache, CacheKey, CacheValue
+import streamlit as st
 
-client = OpenAI(api_key=os.environ.get('KEY'))
+client = OpenAI(api_key=st.secrets['api_key'])
 engine='gpt-3.5-turbo'
 cache = Cache() 
 

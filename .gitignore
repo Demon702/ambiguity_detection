@@ -20,3 +20,5 @@ __pycache__/
 Thumbs.db
 cache.jsonl
 **/.DS_Store
+my_own.key
+.streamlit/
