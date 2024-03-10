@@ -14,8 +14,8 @@ cache = Cache()
 
 
 def amnbiguous_response(ambiguity: str):
-    resp = f'''Your query is ambiguous. {ambiguity}. Can you please provide more details?'''
-    return resp
+    # resp = f'''Your query is ambiguous. {ambiguity}. Can you please provide more details?'''
+    return ambiguity
 
 
 def steps_response(steps: List[str]):
@@ -34,7 +34,7 @@ If there are no amguities then generate a set of steps that needs to be executed
 Return your response in the following format:
 {
     "is_ambiguous": "yes / no",
-    "why_ambiguous": "... reason for ambiguity if ambigious",
+    "follow_up question": "... ask a follow up question if the query is ambiguous",
     "steps": [
         "step 1: ... (in 10 words or less)",
         "step 2: ... (in 10 words or less)",
@@ -101,7 +101,7 @@ def process_response(response: str):
     ambiguous = response['is_ambiguous'] == 'yes'
 
     if ambiguous:
-        return amnbiguous_response(response['why_ambiguous'])
+        return amnbiguous_response(response['follow_up question'])
     return steps_response(response['steps'])
 
 
@@ -113,7 +113,7 @@ def get_chatbot_response(user_messages: List[str], chatbot_messages: List[str], 
     user_input: string, the user's current input
 
     """
-    system_prompt = '''You are a system that detects ambiguity in user's query.'''
+    system_prompt = '''You are a help assistant that detects ambiguity in user's query. If there is ambiguity in the query, you should respond with a followup question, else you should respond with the next steps.'''
     print(f'quertyng {engine}')
     messages = get_messages(user_messages, chatbot_messages, user_input, system_prompt, include_chat_history=True)
 
